@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="background"></div>
+    <div class="timer-container">
+        <h1>Coming Soon</h1>
+        <div id="countdown"></div>
+    </div>
+    <div class="arrow left-arrow"><span>&lt;</span></div>
+    <div class="arrow right-arrow"><span>&gt;</span></div>
+    <script src="script.js"></script>
+
+    
+</body>
+</html>
+
+<script>
+    function redirectToNextPage() {
+    window.location.href = 'style.css';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+    var countdownElement = document.getElementById('countdown');
+    var targetDate = new Date('2023-12-09T18:00:00Z'); // Set your target date and time in ISO format
+
+    function updateCountdown() {
+        var now = new Date();
+        var timeRemaining = targetDate - now;
+
+        var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        countdownElement.innerHTML = days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's';
+
+        if (timeRemaining <= 0) {
+            countdownElement.innerHTML = 'Event has started!';
+            redirectToNextPage();
+        }
+    }
+
+    updateCountdown(); // Initial call
+
+    // Update countdown every second
+    setInterval(updateCountdown, 1000);
+});
+
+
+let currentImage = 1;
+const maxImages = 5; // Total number of background images you have
+
+function changeBackground() {
+    const background = document.getElementById('background');
+    background.style.backgroundImage = `url('${currentImage}.jpg')`; // Assuming your images are named 1.jpg, 2.jpg, etc.
+    currentImage = (currentImage % maxImages) + 1;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // ... (existing code)
+
+    setInterval(changeBackground, 5000);
+
+    document.querySelector('.left-arrow').addEventListener('click', function() {
+        currentImage = (currentImage - 2 + maxImages) % maxImages + 1;
+        changeBackground();
+    });
+
+    document.querySelector('.right-arrow').addEventListener('click', function() {
+        changeBackground();
+    });
+});
+
+
+</script>
